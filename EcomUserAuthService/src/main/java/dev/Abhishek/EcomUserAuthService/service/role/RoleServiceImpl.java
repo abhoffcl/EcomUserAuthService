@@ -1,12 +1,10 @@
 package dev.Abhishek.EcomUserAuthService.service.role;
 
 import dev.Abhishek.EcomUserAuthService.entity.Role;
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleRequestDto;
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleResponseDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleRequestDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
 import dev.Abhishek.EcomUserAuthService.exceptions.RoleNotFoundException;
 import dev.Abhishek.EcomUserAuthService.repository.RoleRepository;
-import dev.Abhishek.EcomUserAuthService.service.role.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

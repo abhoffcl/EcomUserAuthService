@@ -2,7 +2,7 @@ package dev.Abhishek.EcomUserAuthService.exceptions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.Abhishek.EcomUserAuthService.controller.UserController;
-import dev.Abhishek.EcomUserAuthService.entity.dto.ExceptionResponseDto;
+import dev.Abhishek.EcomUserAuthService.dto.ExceptionResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

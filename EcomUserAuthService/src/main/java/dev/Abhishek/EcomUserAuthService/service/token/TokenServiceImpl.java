@@ -6,7 +6,7 @@ import dev.Abhishek.EcomUserAuthService.entity.JwtObject;
 import dev.Abhishek.EcomUserAuthService.entity.Role;
 import dev.Abhishek.EcomUserAuthService.entity.Token;
 import dev.Abhishek.EcomUserAuthService.entity.User;
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleResponseDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
 import dev.Abhishek.EcomUserAuthService.exceptions.JwtDeserializationException;
 import dev.Abhishek.EcomUserAuthService.exceptions.JwtSerializationException;
 import dev.Abhishek.EcomUserAuthService.repository.TokenRepository;

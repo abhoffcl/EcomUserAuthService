@@ -1,6 +1,6 @@
 package dev.Abhishek.EcomUserAuthService.entity;
 
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleResponseDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 

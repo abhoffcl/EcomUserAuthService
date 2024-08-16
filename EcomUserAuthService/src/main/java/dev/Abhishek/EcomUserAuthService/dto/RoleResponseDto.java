@@ -1,4 +1,4 @@
-package dev.Abhishek.EcomUserAuthService.entity.dto;
+package dev.Abhishek.EcomUserAuthService.dto;
 
 import dev.Abhishek.EcomUserAuthService.entity.Role;
 import lombok.Getter;

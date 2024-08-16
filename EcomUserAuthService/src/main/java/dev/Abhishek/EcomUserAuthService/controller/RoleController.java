@@ -1,7 +1,7 @@
 package dev.Abhishek.EcomUserAuthService.controller;
 
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleRequestDto;
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleResponseDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleRequestDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
 import dev.Abhishek.EcomUserAuthService.exceptions.InvalidInputException;
 import dev.Abhishek.EcomUserAuthService.service.role.RoleService;
 import org.springframework.http.ResponseEntity;

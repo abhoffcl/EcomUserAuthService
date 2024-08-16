@@ -1,7 +1,7 @@
 package dev.Abhishek.EcomUserAuthService.service.role;
 
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleRequestDto;
-import dev.Abhishek.EcomUserAuthService.entity.dto.RoleResponseDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleRequestDto;
+import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
 
 import java.util.List;
 import java.util.UUID;

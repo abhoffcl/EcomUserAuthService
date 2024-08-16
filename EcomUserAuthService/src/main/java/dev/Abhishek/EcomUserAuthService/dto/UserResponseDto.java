@@ -1,4 +1,4 @@
-package dev.Abhishek.EcomUserAuthService.entity.dto;
+package dev.Abhishek.EcomUserAuthService.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +8,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class SignupRequestDto {
+public class UserResponseDto {
+    private UUID userId;
     private String name;
     private String email;
-    private String password;
     private String phoneNumber;
-    private List<UUID> roleIds;
+    private List<RoleResponseDto> roles;
+
+
 }

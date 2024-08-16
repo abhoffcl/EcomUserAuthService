@@ -1,9 +1,9 @@
 package dev.Abhishek.EcomUserAuthService.controller;
 
 import dev.Abhishek.EcomUserAuthService.entity.JwtObject;
-import dev.Abhishek.EcomUserAuthService.entity.dto.LoginRequestDto;
-import dev.Abhishek.EcomUserAuthService.entity.dto.SignupRequestDto;
-import dev.Abhishek.EcomUserAuthService.entity.dto.UserResponseDto;
+import dev.Abhishek.EcomUserAuthService.dto.LoginRequestDto;
+import dev.Abhishek.EcomUserAuthService.dto.SignupRequestDto;
+import dev.Abhishek.EcomUserAuthService.dto.UserResponseDto;
 import dev.Abhishek.EcomUserAuthService.service.user.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
