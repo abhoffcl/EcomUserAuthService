@@ -8,10 +8,10 @@ import dev.Abhishek.EcomUserAuthService.dto.LoginRequestDto;
 import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
 import dev.Abhishek.EcomUserAuthService.dto.SignupRequestDto;
 import dev.Abhishek.EcomUserAuthService.dto.UserResponseDto;
-import dev.Abhishek.EcomUserAuthService.exceptions.InvalidCredentialsException;
-import dev.Abhishek.EcomUserAuthService.exceptions.JwtSerializationException;
-import dev.Abhishek.EcomUserAuthService.exceptions.RoleNotFoundException;
-import dev.Abhishek.EcomUserAuthService.exceptions.UserNotFoundException;
+import dev.Abhishek.EcomUserAuthService.exception.InvalidCredentialsException;
+import dev.Abhishek.EcomUserAuthService.exception.JwtSerializationException;
+import dev.Abhishek.EcomUserAuthService.exception.RoleNotFoundException;
+import dev.Abhishek.EcomUserAuthService.exception.UserNotFoundException;
 import dev.Abhishek.EcomUserAuthService.repository.RoleRepository;
 import dev.Abhishek.EcomUserAuthService.repository.TokenRepository;
 import dev.Abhishek.EcomUserAuthService.repository.UserRepository;
@@ -66,8 +66,9 @@ public class UserServiceImpl implements UserService {
             JwtSerializationException,
             UserNotFoundException,
             InvalidCredentialsException {
-        User savedUser = userRepository.findByEmail(requestDto.getEmail()).
-                orElseThrow(()->new UserNotFoundException("User not found"));
+        String userEmail=requestDto.getEmail();
+        User savedUser = userRepository.findByEmail(userEmail).
+                orElseThrow(()->new UserNotFoundException("User not found with email "+userEmail));
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if(encoder.matches(requestDto.getPassword(),savedUser.getPassword())){
             Token token =tokenService.createToken(savedUser);

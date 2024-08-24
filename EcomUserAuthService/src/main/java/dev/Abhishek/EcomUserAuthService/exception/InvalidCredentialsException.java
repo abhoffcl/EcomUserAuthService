@@ -1,4 +1,4 @@
-package dev.Abhishek.EcomUserAuthService.exceptions;
+package dev.Abhishek.EcomUserAuthService.exception;
 
 public class InvalidCredentialsException extends RuntimeException{
     public InvalidCredentialsException(String message) {

@@ -3,7 +3,7 @@ package dev.Abhishek.EcomUserAuthService.service.role;
 import dev.Abhishek.EcomUserAuthService.entity.Role;
 import dev.Abhishek.EcomUserAuthService.dto.RoleRequestDto;
 import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
-import dev.Abhishek.EcomUserAuthService.exceptions.RoleNotFoundException;
+import dev.Abhishek.EcomUserAuthService.exception.RoleNotFoundException;
 import dev.Abhishek.EcomUserAuthService.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +29,13 @@ public class RoleServiceImpl implements RoleService {
         return true;
     }
     @Override
-    public RoleResponseDto getRole(UUID id) {
+    public RoleResponseDto getRole(UUID id)throws RoleNotFoundException {
         Role role= roleRepository.findById(id).
                 orElseThrow(()->new RoleNotFoundException("Role not found for id :"+id));
         return convertRoleEntityToRoleResponseDto(role);
     }
     @Override
-    public RoleResponseDto updateRole(RoleRequestDto roleRequestDto,UUID id) {
+    public RoleResponseDto updateRole(RoleRequestDto roleRequestDto,UUID id)throws RoleNotFoundException {
         Role savedRole = roleRepository.findById(id).
                 orElseThrow(()->new RoleNotFoundException("Role not found for id :"+id));
         savedRole.setRoleName(roleRequestDto.getRoleName());
