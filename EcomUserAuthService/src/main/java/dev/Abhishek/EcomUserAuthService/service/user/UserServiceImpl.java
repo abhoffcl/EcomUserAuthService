@@ -8,13 +8,11 @@ import dev.Abhishek.EcomUserAuthService.dto.LoginRequestDto;
 import dev.Abhishek.EcomUserAuthService.dto.RoleResponseDto;
 import dev.Abhishek.EcomUserAuthService.dto.SignupRequestDto;
 import dev.Abhishek.EcomUserAuthService.dto.UserResponseDto;
-import dev.Abhishek.EcomUserAuthService.exception.InvalidCredentialsException;
-import dev.Abhishek.EcomUserAuthService.exception.JwtSerializationException;
-import dev.Abhishek.EcomUserAuthService.exception.RoleNotFoundException;
-import dev.Abhishek.EcomUserAuthService.exception.UserNotFoundException;
+import dev.Abhishek.EcomUserAuthService.exception.*;
 import dev.Abhishek.EcomUserAuthService.repository.RoleRepository;
 import dev.Abhishek.EcomUserAuthService.repository.TokenRepository;
 import dev.Abhishek.EcomUserAuthService.repository.UserRepository;
+import dev.Abhishek.EcomUserAuthService.service.kafkaProducer.KafkaMessagingService;
 import dev.Abhishek.EcomUserAuthService.service.role.RoleService;
 import dev.Abhishek.EcomUserAuthService.service.role.RoleServiceImpl;
 import dev.Abhishek.EcomUserAuthService.service.token.TokenService;
@@ -35,31 +33,38 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
     private TokenRepository tokenRepository;
     private TokenService tokenService;
+    private KafkaMessagingService kafkaMessagingService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService, TokenRepository tokenRepository, TokenService tokenService) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService, TokenRepository tokenRepository, TokenService tokenService, KafkaMessagingService kafkaMessagingService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.roleService = roleService;
         this.tokenRepository = tokenRepository;
         this.tokenService = tokenService;
+        this.kafkaMessagingService = kafkaMessagingService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
-    public UserResponseDto signup(SignupRequestDto requestDto)throws RoleNotFoundException {
+    public UserResponseDto signup(SignupRequestDto requestDto)throws RoleNotFoundException ,KafkaMessagingException{
         List<Role>roles = new ArrayList<>();
         for(UUID roleId:requestDto.getRoleIds()){
             Role role = roleRepository.findById(roleId).
                     orElseThrow(()->new RoleNotFoundException("Role not available with id "+roleId));
             roles.add(role);
         }
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+
         User user = new User();
         user.setName(requestDto.getName());
         user.setPhoneNumber(requestDto.getPhoneNumber());
-        user.setPassword(encoder.encode(requestDto.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(requestDto.getPassword()));
         user.setEmail(requestDto.getEmail());
         user.setRoles(roles);
-        return convertUserEntityToUserResponseDto(userRepository.save(user));
+        User savedUser = userRepository.save(user);
+        kafkaMessagingService.send(requestDto);
+        return convertUserEntityToUserResponseDto(savedUser);
     }
     @Override
     public UserResponseDto login(LoginRequestDto requestDto, HttpServletResponse response) throws
@@ -69,8 +74,7 @@ public class UserServiceImpl implements UserService {
         String userEmail=requestDto.getEmail();
         User savedUser = userRepository.findByEmail(userEmail).
                 orElseThrow(()->new UserNotFoundException("User not found with email "+userEmail));
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if(encoder.matches(requestDto.getPassword(),savedUser.getPassword())){
+        if(bCryptPasswordEncoder.matches(requestDto.getPassword(),savedUser.getPassword())){
             Token token =tokenService.createToken(savedUser);
             response.setHeader("Authorization", "Bearer " + token.getValue());
         }

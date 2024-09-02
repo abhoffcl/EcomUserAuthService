@@ -42,6 +42,14 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(exceptionResponseDto, HttpStatus.UNAUTHORIZED);
     }
+    @ExceptionHandler(KafkaMessagingException.class)
+    public ResponseEntity handleKafkaMessagingException(KafkaMessagingException ke){
+        ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(
+                ke.getMessage(),
+                500
+        );
+        return new ResponseEntity<>(exceptionResponseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }
