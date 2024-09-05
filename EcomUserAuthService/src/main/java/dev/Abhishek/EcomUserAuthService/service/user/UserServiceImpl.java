@@ -49,6 +49,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto signup(SignupRequestDto requestDto)throws RoleNotFoundException ,KafkaMessagingException{
         List<Role>roles = new ArrayList<>();
+        if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
+            throw new DuplicateEmailException("Email address already in use.");
+        }
+        if (userRepository.findByPhoneNumber(requestDto.getPhoneNumber()).isPresent()) {
+            throw new DuplicatePhoneNumberException("Phone number already in use.");
+        }
         for(UUID roleId:requestDto.getRoleIds()){
             Role role = roleRepository.findById(roleId).
                     orElseThrow(()->new RoleNotFoundException("Role not available with id "+roleId));
